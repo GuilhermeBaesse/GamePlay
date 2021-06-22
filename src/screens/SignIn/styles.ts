@@ -1,6 +1,6 @@
 /*regras de estilização da interface*/
 import { StyleSheet, TouchableHighlightComponent } from "react-native";
-import { theme } from '../../global/styles/theme';
+import { theme } from '../../assets/discord.png'
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
