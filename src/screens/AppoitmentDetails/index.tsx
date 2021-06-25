@@ -14,7 +14,7 @@ import { ButtonIcon } from '../../componets/Buttonicon';
 
 
 export function AppointmentDetails() {
-    const membrs =[{
+    const members =[{
         id: '1',
         username: 'Rodrigo',
         avatar_url: 'https://github.com/rodrigorgtic.png',
@@ -59,7 +59,7 @@ export function AppointmentDetails() {
                 subtitle="total 3"
             />
             <FlatList
-                data={membrs}
+                data={members}
                 keyExtractor={item => item.id}
                 renderItem={({item}) =>(
                     <Member data={item} />
