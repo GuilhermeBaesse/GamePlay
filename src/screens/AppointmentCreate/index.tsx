@@ -1,53 +1,149 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
-import { Header } from '../../componets/Header'
-import { styles } from './styles'
-import { View, Text } from 'react-native';
-import { CategorySelect } from '../../componets/CategorySelect';
-import { Background } from '../../componets/Background';
+
+import {
+  Text,
+  View,
+  Platform,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
+
 import { theme } from '../../global/styles/theme';
+import { styles } from './styles';
+
+import { CategorySelect } from '../../componets/CategorySelect';
+import { ModalView } from '../../componets/ModalView';
+import { SmallInput } from '../../componets/SmallInput';
 import { GuildIcon } from '../../componets/Guildicon';
+import { TextArea } from '../../componets/TextArea';
+import { GuildProps } from '../../componets/Guild';
+import { Header } from '../../componets/Header';
+import { Button } from '../../componets/Button';
+import { Guilds } from '../Guilds';
 
-export function AppointmentDetails(){
-    const [category, setCategory] = useState('');
 
-    return (
-        <Background>
-            <Header
-                title="Agendar partida"
-            />
-            <Text style={[styles.label, {marginLeft: 24,marginTop: 36, marginBottom: 18}]}>
-                Categoria
-            </Text>
-            <CategorySelect
-                hasCheckBox
-                setCategory={setCategory}
-                categorySelected={category}
-            />
-            <View style={styles.form}>
-                <RectButton>
-                    <View style={styles.select}>
-                        <View style={styles.image}/>
-                            {
-                                //fazer de forma condicional
-                                <GuildIcon />
-                            }
-                        <View style={styles.selectBody}>
-                            <Text style={styles.label}>
-                                Selecione um servidor
-                            </Text>
-                        </View>
-                        <Feather 
-                            name='chevron-right'
-                            color={theme.colors.heading}
-                            size={18}
-                        />
-                    </View>
-                </RectButton>
+export function AppointmentCreate(){
+  const [category, setCategory] = useState('');
+  const [openGuildsModal, setOpenGuildsModal] = useState(false);
+  const [guild, setGuild] = useState<GuildProps>({} as GuildProps);
 
+  function handleOpenGuilds(){
+    setOpenGuildsModal(true);
+  }
+
+  function handleGuildSelect(guildSelect: GuildProps){
+    setGuild(guildSelect);
+    setOpenGuildsModal(false);
+  }
+
+  return (
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height' }
+      style={styles.container}
+    >
+      <ScrollView>  
+        <Header 
+          title="Agendar partida"
+        />
+
+        <Text style={[
+          styles.label, 
+          { marginLeft: 24, marginTop: 36, marginBottom: 18 }]}
+        >
+          Categoria
+        </Text>
+
+        <CategorySelect 
+          hasCheckBox
+          setCategory={setCategory}
+          categorySelected={category}
+        />
+
+        <View style={styles.form}>
+          <RectButton onPress={handleOpenGuilds}>
+            <View style={styles.select}>
+              {
+                guild.icon 
+                ? <GuildIcon /> 
+                : <View style={styles.image} />
+              }
+
+              <View style={styles.selectBody}>
+                <Text style={styles.label}>
+                  { //se a guild name existir seleciona se não selecione um servidor
+                    guild.name 
+                    ? guild.name 
+                    : 'Selecione um servidor' 
+                  }
+                </Text>
+              </View>
+
+              <Feather 
+                name="chevron-right"
+                color={theme.colors.heading}
+                size={18}
+              />
             </View>
-   
-        </Background>
-    );
+          </RectButton>
+          
+          <View style={styles.field}>
+            <View>
+              <Text style={styles.label}>
+                Dia e mês
+              </Text>
+
+              <View style={styles.column}>
+                <SmallInput maxLength={2} />
+                <Text style={styles.divider}>
+                  /
+                </Text>
+                <SmallInput maxLength={2} />
+              </View>
+            </View>
+
+            <View>
+              <Text style={styles.label}>
+                Hora e minuto
+              </Text>
+
+              <View style={styles.column}>
+                <SmallInput maxLength={2} />
+                <Text style={styles.divider}>
+                  :
+                </Text>
+                <SmallInput maxLength={2} />
+              </View>
+            </View>           
+          </View>
+
+          <View style={[styles.field, { marginBottom: 12 }]}>
+            <Text style={styles.label}>
+              Descrição
+            </Text>
+
+            <Text style={styles.caracteresLimit}>
+              Max 100 caracteres
+            </Text>
+          </View>
+
+          <TextArea 
+            multiline
+            maxLength={100}
+            numberOfLines={5}
+            autoCorrect={false}
+          />
+
+          <View style={styles.footer}>
+            <Button title="Agendar" />
+          </View>
+        </View>
+      </ScrollView>
+
+      <ModalView visible={openGuildsModal}>
+        <Guilds handleGuildSelect={handleGuildSelect}/>
+      </ModalView>
+    </KeyboardAvoidingView>
+  );
 }
