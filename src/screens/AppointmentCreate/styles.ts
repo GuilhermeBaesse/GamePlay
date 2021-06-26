@@ -35,7 +35,34 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.colors.secondary50,
     borderWidth: 1,
     borderRadius: 8,
+  },
+  field: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 30
+  },
+  column: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  divider: {
+    marginRight: 4,
+    fontSize: 18,
+    fontFamily: theme.fonts.text400,
+    color: theme.colors.highlight
+  },
+  caracteresLimit: {
+    fontFamily: theme.fonts.text400,
+    fontSize: 13,
+    color: theme.colors.highlight
+  },
+  footer: {
+    marginVertical: 20,
+    marginBottom: 56,
   }
+
+
 
 
 });

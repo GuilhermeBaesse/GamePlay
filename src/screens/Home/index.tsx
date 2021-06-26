@@ -9,11 +9,13 @@ import { ButtonAdd } from '../../componets/ButtonAdd';
 import { Profile } from '../../componets/Profile'
 import { Background } from '../../componets/Background'
 import { styles } from './styles';
-import { AppointmentDetails } from '../AppoitmentDetails';
+
 
 export function Home() {
   const [category, setCategory] = useState('');
-  const navigation = useNavigation()
+
+  const navigation = useNavigation();
+
   const appointments = [
     {
       id: '1',
@@ -39,24 +41,25 @@ export function Home() {
       date: '22/06 às 20:40h',
       description: 'É hoje que vamos chegar ao challenger sem perder uma partida da md10'      
     },
-    
   ]
 
   function handleCategorySelect(categoryId: string) {
     categoryId === category ? setCategory('') : setCategory(categoryId);
+  } 
+  
+  function handleAppointmentDetails() {
+    navigation.navigate('AppointmentDetails');
+  } 
+  
+  function handleAppointmentCreate() {
+    navigation.navigate('AppointmentCreate');
   }  
-function handleAppointmentDetails(){
-  navigation.navigate('AppointmentDetails')
-}
-function handleAppointmentCreate(){
-  navigation.navigate('AppointmentCreate')
-}
+
   return (
-  <Background>
-    <View>
+    <Background>
       <View style={styles.header}>
         <Profile />
-        <ButtonAdd onPress={handleAppointmentDetails} />
+        <ButtonAdd onPress={handleAppointmentCreate}/>
       </View>
     
       <CategorySelect 
@@ -74,17 +77,16 @@ function handleAppointmentCreate(){
             data={appointments}
             keyExtractor={item => item.id}
             renderItem={({ item }) => (
-            <Appointment
-             data={item}
-             onPress={handleAppointmentDetails}
-            /> //quando clicar no appointment vai redirecionar para os detalhes de agendamento           
+            <Appointment 
+              data={item} 
+              onPress={handleAppointmentDetails}
+            />            
           )}
           ItemSeparatorComponent={() => <ListDivider />}
           style={styles.matches}
           showsVerticalScrollIndicator={false}
         />
       </View>
-    </View>
-  </Background>
+    </Background>
   );  
 }
