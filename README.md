@@ -6,7 +6,7 @@ Esse projeto facilita combinar jogatinas com os amigos, foi desenvolvido juntame
 
 - Autenticação com discord ( usando oauth2-authentication )
 - AsyncStorage
-- Tipagem
+- Tipagem (typescript)
 - Context Api
 - Escolha de categorias
 - Escolha de servidores
